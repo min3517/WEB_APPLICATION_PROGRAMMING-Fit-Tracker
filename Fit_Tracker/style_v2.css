@@ -1,0 +1,1391 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&display=swap');
+
+/* =========================================
+   1. 기본 설정 및 공통 스타일 (Base & Common)
+   ========================================= */
+body {
+    font-family: 'IBM Plex Sans KR', -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7f6;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* 앱 메인 섹션 (로그인 전에는 숨김) */
+#app-section { display: none; }
+
+/* 레이아웃 골격 */
+main {
+    padding-top: 110px;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+section { 
+    padding-top: 40px;
+    padding-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* 타이포그래피 */
+h1, h2, h3 {
+    color: #0056b3;
+    margin-top: 0;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+h2 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+h3 { 
+    margin-bottom: 15px; 
+    font-size: 1.3rem; 
+}
+
+p {
+    margin-bottom: 1.5rem;
+    color: #555;
+}
+
+/* 공통 컴포넌트: 카드 */
+.card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    padding: 25px;
+    margin-bottom: 25px;
+    border: 1px solid #ddd;
+}
+
+/* 공통 컴포넌트: 버튼 */
+.btn-primary {
+    width: 100%;
+    padding: 15px;
+    background-color: #0066cc;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+/* 공통 컴포넌트: 알림 박스 */
+.info-alert {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeeba;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    display: none; /* JS 제어 */
+}
+.info-alert strong { font-weight: bold; text-decoration: underline; }
+
+/* 탭 기능 */
+.tab-content { display: none; animation: fadeIn 0.3s; padding-bottom: 50px; }
+.tab-content.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* =========================================
+   2. 네비게이션 및 푸터 (Navigation & Footer)
+   ========================================= */
+#navbar {
+    background-color: #ffffff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    z-index: 1000;
+}
+
+.nav-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.logo a {
+    color: #0056b3;
+    text-decoration: none;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links li {
+    display: block;
+    margin-left: 2rem;
+    position: relative; 
+    padding:0;
+    
+}
+
+.nav-links a {
+    display:inline-block;
+    text-decoration: none;
+    color: #555;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+
+}
+
+.nav-links a:hover {
+    color: #0056b3;
+}
+
+.nav-links a.active-tab { 
+    color: #0066cc; 
+    font-weight: bold; 
+    border-bottom: 2px solid #0066cc; 
+    padding:0;
+}
+
+/* 드롭다운 메뉴 */
+.dropdown-parent {
+    position: relative;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    background-color: white;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    opacity: 0;
+    animation: slideDown 0.3s ease forwards;    
+}
+
+.nav-links li:hover .dropdown-menu { display: inline-block; }
+
+.dropdown-menu a {
+    display: inline-block;
+    color: #555;
+    text-decoration: none;
+    font-size: 0.95em;
+    white-space: nowrap;
+    padding:15px;
+    border-bottom: none !important;
+    transition: background-color 0.2s;
+    border-radius: 10px;
+}
+
+.dropdown-menu a:hover {
+    background-color: #f8f9fa;
+    color: #0066cc;
+    border-radius: 10px;
+    margin: 0;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translate(-50%, 0); }
+    to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+/* 푸터 */
+footer {
+    background-color: #333;
+    color: #eee;
+    text-align: center;
+    padding: 2rem;
+    margin-top: 3rem;
+}
+
+footer p { margin: 0; color: #eee; }
+
+/* =========================================
+   3. 로그인/인증 (Authentication)
+   ========================================= */
+#login-section {
+    display: flex; /* 초기값 flex (JS로 제어) */
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f2f5;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100vh;
+    z-index: 9999;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.auth-container {
+    background-color: white;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    width: 100%; max-width: 400px;
+    text-align: center;
+}
+
+.auth-container h1 { color: #0066cc; font-size: 2rem; margin-bottom: 10px; margin-top: 0; }
+.auth-container h2 { font-size: 1.2rem; color: #555; margin-bottom: 30px; font-weight: normal; }
+
+.auth-form { display: flex; flex-direction: column; gap: 15px; }
+.auth-form input, .auth-form select {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: #fafafa;
+    box-sizing: border-box;
+}
+
+.auth-link { margin-top: 20px; font-size: 14px; color: #666; }
+.auth-link span { color: #0066cc; font-weight: bold; cursor: pointer; }
+
+/* 메뉴 표시 제어 (로그인 상태에 따라) */
+.auth-menu { display: none !important; }
+.guest-menu { display: block; }
+body.logged-in .auth-menu { display: block !important; }
+body.logged-in .guest-menu { display: none !important; }
+
+/* =========================================
+   4. 홈 화면 (Home Tab)
+   ========================================= */
+#home {
+    min-height: calc(100vh - 80px);
+    justify-content: center;
+    text-align: center;
+}
+
+.hero-section {
+    background: linear-gradient(135deg, #0066cc 0%, #004a99 100%);
+    color: white;
+    padding: 60px 20px;
+    border-radius: 20px; 
+    text-align: center;
+    margin-bottom: 50px;
+    box-shadow: 0 10px 25px rgba(0, 102, 204, 0.3); 
+}
+
+.hero-section h1 {
+    color: white;
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 15px;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.hero-section p {
+    color: #e6f0ff;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.hero-btn {
+    display: inline-block;
+    background-color: white;
+    color: #0066cc;
+    padding: 15px 35px;
+    border-radius: 30px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.hero-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    background-color: #f8f9fa;
+}
+
+/* 기능 소개 그리드 */
+.features-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin-bottom: 60px;
+}
+
+.feature-item {
+    background: white;
+    padding: 40px 30px;
+    border-radius: 20px;
+    text-align: center;
+    border: 1px solid #f0f0f0;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.feature-item:hover {
+    transform: translateY(-10px); 
+    box-shadow: 0 20px 40px rgba(0, 102, 204, 0.15); 
+    border-color: #e6f0ff;
+}
+
+.feature-item h3 {
+    font-size: 1.4rem;
+    color: #333;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.feature-item p {
+    color: #666;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    word-break: keep-all;
+    margin: 0;
+}
+
+.icon-wrapper {
+    width: 80px; height: 80px;
+    background-color: #f0f7ff;
+    border-radius: 50%;
+    display: flex; justify-content: center; align-items: center;
+    margin: 0 auto 25px auto;
+    transition: transform 0.3s ease;
+}
+
+.feature-icon { font-size: 3rem; }
+
+.feature-item:hover .icon-wrapper {
+    transform: scale(1.1) rotate(5deg);
+    background-color: #e0efff;
+}
+
+/* 유튜브 섹션 */
+#video {
+  font-size: 2rem;
+  color: #0056b3;
+  text-align: center;
+  font-weight: 700;
+  margin-bottom: 2rem;
+}
+
+#player-container {
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+#youtube-carousel {
+    width: 90%; box-sizing: border-box; max-width: 1000px;
+    display: flex; overflow-x: auto; gap: 20px;
+    scroll-snap-type: x mandatory; list-style: none; margin: 0 auto;
+    scrollbar-width: thin; scrollbar-color: #bbb transparent;
+}
+
+#youtube-carousel::-webkit-scrollbar { height: 8px; }
+#youtube-carousel::-webkit-scrollbar-thumb { background: #bbb; border-radius: 10px; }
+
+.slide-item {
+  flex: 0 0 300px;
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  text-decoration: none;
+  color: inherit;
+  scroll-snap-align: center;
+}
+
+.thumbnail-container {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+  border-radius: 12px 12px 0 0;
+}
+.thumbnail-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.video-title {
+  padding: 14px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #0056b3;
+  line-height: 1.4;
+  height: 2.2em;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  white-space: normal;
+}
+
+/* 지도 및 주소 검색 */
+#map > .card {
+    min-height: 900px; 
+    display: flex;
+    flex-direction: column; 
+}
+
+#mapContainer {
+    flex-grow: 1; 
+    display: flex;
+    flex-direction: column; 
+    margin-top: 1rem; 
+    align-items: stretch; 
+    justify-content: flex-start;
+}
+
+#kakao_map {
+    width: auto;
+    height: auto;
+    flex-grow: 1;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: height 0.3s ease;
+}
+
+.placeholder-box {
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #888;
+    font-style: italic;
+}
+
+#map>.placeholder-box { 
+    background-color: transparent; 
+    padding: 0; 
+}
+
+#controls {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    background-color: #ffffff;
+    box-shadow: 2px 6px 6px rgba(2, 13, 111, 0.05);
+}
+
+#controls h3 {
+    margin-top: 0;
+    font-size: 1.25em;
+    color: #333;
+}
+
+.control-section {
+    margin-bottom: 15px;
+}
+
+.control-section label {
+    margin-right: 15px;
+    font-size: 0.95em;
+    color: #555;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.control-section label:hover {
+    color: #4dabf7; 
+}
+
+.control-section input[type="radio"],
+.control-section input[type="checkbox"] {
+    accent-color: #74c0fc; 
+    transform: scale(1.1); 
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+#controls button,
+#address-search-area button {
+    background-color: #0056b3; 
+    color: #ffffff;   
+    border: 2px solid #0056b3;
+    border-radius: 15px;      
+    padding: 0.5rem 0.7rem;
+    font-weight: 500;          
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    margin-left: 5px;        
+}
+
+#controls button:hover,
+#address-search-area button:hover {
+    background-color: #ffffff; 
+    color: #0056b3;              
+    border-color: #0056b3;
+    transform: translateY(-2px); 
+}
+
+#address-search-container {
+    position: relative;
+    margin-top: 10px;
+}
+
+#address-search-area {
+    display: flex;
+    gap: 10px;
+}
+
+#address-input {
+    flex-grow: 1;
+    padding: 0.5rem 0.7rem;     
+    border: 2px solid #e0e7ff; 
+    border-radius: 20px;    
+    font-size: 0.95em;
+    background-color: #f8f9fa;
+    transition: all 0.2s ease;
+    color: #444;
+}
+
+#address-input:focus {
+    background-color: #fff;
+    border-color: #74c0fc;  
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(116, 192, 252, 0.15); 
+}
+
+#autocomplete-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 20;
+    border: 1px solid #ccc;
+    background: #fff;
+    max-height: 250px;
+    overflow-y: auto;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+#autocomplete-results li {
+    padding: 8px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.95em;
+    color: #333;
+    transition: background-color 0.2s ease;
+}
+
+#autocomplete-results li:hover {
+    background-color: #f0f8ff;
+}
+
+#autocomplete-results li.history-title {
+    font-weight: bold;
+    color: #555;
+    background-color: #f7f7f7;
+    cursor: default;
+    border-bottom: 1px solid #ddd;
+    padding: 6px 12px;
+}
+
+.history-text {
+    flex-grow: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding-right: 10px;
+}
+
+.history-delete-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #999;
+    font-size: 14px;
+    padding: 0 5px;
+    line-height: 1;
+    margin-left: auto;
+    transition: color 0.2s ease;
+}
+
+.history-delete-btn:hover {
+    color: #dc3545;
+}
+
+/* =========================================
+   5. 운동/칼로리 (Health & Calorie Tab)
+   ========================================= */
+.health-section {
+    scroll-margin-top: 100px; 
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px dashed #ddd; 
+}
+
+/* BMI 폼 */
+#bmiForm {
+    max-width: 400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+#bmiForm label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    text-align: left;
+}
+
+#bmiForm input[type="number"] {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+#bmiForm button {
+    background-color: #0066cc;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: none;
+    padding: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#bmiForm button:hover {
+    background-color: #0052a3;
+}
+
+#bmiResult {
+    margin-top: 1.5rem;
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+/* 체중 그래프 컨트롤 */
+#weightForm {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-end;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+#weightForm > div {
+    flex: 1; 
+    max-width: 250px;
+}
+
+#weightForm button {
+    padding: 0.8rem 1.5rem;
+    white-space: nowrap; 
+}
+
+.divider {
+    border: 0;
+    border-top: 1px solid #eee;
+    margin: 2.5rem 0;
+}
+
+.filter-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.filter-controls h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+#chartFilters {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.filter-btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    color: #555;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.filter-btn:hover {
+    background-color: #e9e9e9;
+    border-color: #aaa;
+}
+
+.filter-btn.active-filter {
+    background-color: #0066cc;
+    color: white;
+    border-color: #0066cc;
+    font-weight: bold;
+}
+
+/* 칼로리 그리드 레이아웃 */
+.calorie-grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+} 
+
+.calorie-column {
+    display: flex;
+    flex-direction: column;
+    background-color: #f8faff;
+    border: 1px solid #e0e8f3;
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+.calorie-column h3 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    color: #0056b3;
+    text-align: left;
+}
+
+/* 식단 (왼쪽 컬럼) */
+.meal-top-container {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start; 
+    margin-bottom: 1rem;
+}
+
+.chart-container {
+    flex: 0 0 150px; 
+    text-align: center;    
+}
+
+#calorieChart {
+    min-width: 150px;
+    min-height: 150px;
+    max-width: 150px;
+    max-height: 150px;
+    margin: 0 auto;
+}
+
+.calorie-summary-text {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+    margin-top: 1rem;
+}
+
+.calorie-summary-text span {
+    color: #333;
+}
+
+.calorie-summary-text #netConsumeKcal {
+    color: #0066cc;
+    font-weight: bold;
+}
+
+.chart-legend {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; 
+    gap: 0.3rem;
+    margin-top: 1rem;
+    margin-bottom: 0.9rem;
+    font-size: 0.9rem;
+    padding-left: 10px; 
+}
+
+.legend-color-box {
+    width: 14px;
+    height: 14px;
+    border-radius: 4px;
+    margin-right: 8px;
+    display: inline-block;
+}
+
+/* 운동 (오른쪽 컬럼) */
+.exercise-top-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    background: #f0f5fd;
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.total-time-display {
+    text-align: center;
+}
+
+.total-time-display p {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.total-time-display span {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #0066cc;
+    line-height: 1;
+}
+
+/* 스톱워치 */
+.stopwatch-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+#stopwatchDisplay {
+    font-size: 1.8rem;
+    font-weight: 500;
+    color: #333;
+    background: #fff;
+    padding: 0.2rem 0.8rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    min-width: 130px;
+    text-align: center;
+}
+
+.stopwatch-controls {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.stopwatch-controls button {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 1px solid;
+}
+
+.stopwatch-controls button:hover {
+    transform: translateY(-2px);
+}
+
+.stopwatch-controls button:active {
+    transform: translateY(2px);
+}
+
+#startStopBtn {
+    background-color: #28a745;
+    border-color: #28a745;
+    color: white;
+}
+
+#startStopBtn.running {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    color: white;
+}
+
+#startStopBtn.paused {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: white;
+}
+
+#resetBtn {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: white;
+}
+
+#resetBtn.finish {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: white;
+}
+
+/* 입력 폼 공통 (식단/운동) */
+.calorie-column .form-section {
+    flex: 1;
+}
+
+.calorie-column .form-section form {
+    display: flex;
+    flex-direction: column; 
+    gap: 0.75rem;
+}
+
+.calorie-column .form-section input[type="text"],
+.calorie-column .form-section input[type="number"] {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.calorie-column .form-section .form-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.calorie-column .form-section .form-row input {
+    flex: 1;
+}
+
+.form-section button {
+  padding: 0.5rem 0.7rem;
+  background-color: #0066cc;
+  color: white;
+  font-weight: 500;
+  border: 2px solid #0066cc;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.form-section button:hover {
+  background-color: white;
+  color: #0066cc;
+  border-color: #0066cc;
+}
+
+/* 리스트 섹션 */
+.list-section {
+    margin-top: 1rem;
+    border-top: 1px solid #d0dae9;
+    padding-top: 1rem;
+    flex-grow: 1;
+}
+
+.list-section ul {
+  margin-top: 0;
+  max-height: none; 
+  overflow-y: auto;
+} 
+
+.form-section li {
+  background: #f0f6ff;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+}
+
+.total-kcal-display {
+    text-align: right;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #333;
+    margin: 1rem 0 0 0;
+}
+
+.total-kcal-display span {
+    color: #0066cc;
+    font-size: 1.2rem;
+}
+
+/* 수동 입력 및 자동완성 */
+.manual-input-box { margin-top: 15px; padding-top: 15px; border-top: 1px dashed #ccc; }
+.manual-input-box h4 { margin: 0 0 10px 0; font-size: 0.95rem; color: #555; }
+.manual-form { display: flex; gap: 5px; flex-wrap: wrap; }
+.manual-form input { flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 4px; min-width: 80px; }
+.manual-form button { background-color: #cad6e2; border-color: #cad6e2; color: black; }
+.manual-form button:hover { background-color: white; color: #cad6e2; border-color: #cad6e2; }
+.autocomplete-wrapper { position: relative; width: 100%; }
+
+.suggestion-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border-top: none;
+  max-height: 180px;
+  overflow-y: auto;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  z-index: 1000;
+}
+
+.suggestion-list li {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.suggestion-list li:hover {
+  background-color: #f0f8ff;
+}
+
+/* =========================================
+   6. 다이어리 (Diary Tab)
+   ========================================= */
+.diary-container { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+.diary-container select { padding: 8px; border-radius: 6px; border: 1px solid #ccc; }
+
+/* 날씨 섹션 */
+.weather-container {
+    display: flex;
+    overflow-x: auto;
+    gap: 15px;
+    padding-bottom: 10px;
+}
+
+.weather-container::-webkit-scrollbar { height: 6px; }
+.weather-container::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
+
+.weather-card {
+    flex: 0 0 90px;
+    background: #f8faff;
+    border: 1px solid #e3f2fd;
+    border-radius: 10px;
+    padding: 15px 5px;
+    text-align: center;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+
+.weather-date { font-size: 0.8rem; color: #666; margin-bottom: 5px; }
+.weather-icon { font-size: 1.8rem; margin: 5px 0; }
+.weather-temp { font-weight: bold; color: #333; font-size: 0.9rem; }
+.weather-desc { font-size: 0.7rem; color: #888; }
+
+.today-badge {
+    background: #0066cc; color: white; font-size: 0.6rem;
+    padding: 2px 6px; border-radius: 10px; margin-bottom: 5px;
+}
+
+/* 운세 섹션 */
+.horoscope-card { border-left: 5px solid #8e44ad; }
+.horoscope-card .horoscope-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+    padding: 30px 20px;
+    border-radius: 15px;
+    border: 1px solid #e0e0e0;
+}
+
+.horoscope-date { color: #777; font-size: 0.9rem; margin-top: -10px; margin-bottom: 20px; }
+.horoscope-icon-wrapper {
+    width: 80px;
+    height: 80px;
+    background-color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    box-shadow: 0 5px 15px rgba(142, 68, 173, 0.2);
+    margin-bottom: 15px;
+    border: 2px solid #9b59b6;
+}
+
+.horoscope-title {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #8e44ad;
+    margin: 0;
+}
+
+.horoscope-period {
+    font-size: 0.85rem;
+    color: #888;
+    margin-bottom: 15px;
+}
+
+.horoscope-message-box {
+    background: white;
+    padding: 15px 20px;
+    border-radius: 10px;
+    border: 1px dashed #bbb;
+    margin-bottom: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.horoscope-message-box p {
+    margin: 0;
+    color: #555;
+    font-size: 1rem;
+    line-height: 1.6;
+    word-break: keep-all;
+}
+
+/* 행운 지수 */
+.lucky-meter-container {
+    width: 100%;
+    margin-top: 5px;
+}
+
+.lucky-meter-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.lucky-bar-bg {
+    width: 100%;
+    height: 10px;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.lucky-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #a18cd1 0%, #fbc2eb 100%);
+    border-radius: 5px;
+    width: 0%;
+    transition: width 1s ease-in-out;
+}
+
+/* 일기 쓰기 */
+.form-group { margin-bottom: 20px; }
+.form-group label { display: block; font-weight: bold; margin-bottom: 8px; color: #444; }
+.form-group input[type="date"] {
+    padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit;
+}
+
+.mood-selector {
+    display: flex; gap: 10px; flex-wrap: wrap;
+}
+.mood-selector input[type="radio"] { display: none; }
+
+.mood-option {
+    display: flex; flex-direction: column; align-items: center;
+    padding: 10px; border: 2px solid #eee; border-radius: 12px;
+    cursor: pointer; transition: all 0.2s; min-width: 60px;
+}
+.mood-option .emoji { font-size: 2rem; margin-bottom: 5px; }
+.mood-option .mood-label { font-size: 0.8rem; color: #777; font-weight: bold; }
+
+/* 무드 선택 스타일 */
+#mood-good:checked + label { border-color: #ffc107; background: #fffdf0; transform: scale(1.05); }
+#mood-normal:checked + label { border-color: #28a745; background: #f0fff4; transform: scale(1.05); }
+#mood-tired:checked + label { border-color: #6c757d; background: #f8f9fa; transform: scale(1.05); }
+#mood-sad:checked + label { border-color: #007bff; background: #f0f7ff; transform: scale(1.05); }
+#mood-angry:checked + label { border-color: #dc3545; background: #fff0f0; transform: scale(1.05); }
+
+.diary-container textarea {
+    width: 100%; height: 120px; padding: 15px; box-sizing: border-box;
+    border: 1px solid #ddd; border-radius: 8px; resize: none;
+    font-size: 1rem; font-family: inherit;
+}
+.diary-container textarea:focus { outline: 1px solid #0066cc; }
+
+.save-btn { width: 100%; padding: 12px; background: #0066cc; color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer; }
+.save-btn:hover { background: #0052a3; }
+
+/* 일기 목록 */
+.diary-list { display: flex; flex-direction: column; gap: 15px; }
+.diary-entry { border: 1px solid #eee; border-radius: 8px; padding: 15px; background: #fafafa; display: flex; gap: 15px; }
+.entry-mood { font-size: 2.5rem; display: flex; align-items: center; }
+.entry-content { flex: 1; }
+.entry-date { font-size: 0.8rem; color: #888; margin-bottom: 5px; }
+.entry-text { font-size: 0.95rem; color: #333; white-space: pre-wrap; }
+.empty-message { text-align: center; color: #aaa; padding: 20px; }
+
+/* 세부 항목 토글 */
+.detail-toggle-btn { background: none; border: 1px solid #0066cc; color: #0066cc; padding: 5px 10px; border-radius: 20px; cursor: pointer; font-size: 0.9rem; margin-bottom: 10px; }
+.detail-toggle-btn:hover { background: #f0f8ff; }
+#detail-calc-section { background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px solid #eee; margin-bottom: 20px; display: none; }
+
+/* =========================================
+   7. 마이페이지 (MyPage Tab)
+   ========================================= */
+/* 프로필 섹션 */
+.profile-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.profile-image-container {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 20px;
+    background-color: white; 
+    border: 1px solid #ddd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    display: none;
+}
+
+.profile-info h2 { margin: 0 0 5px 0; font-size: 1.8rem; color: #333; }
+.user-meta { color: #777; margin-bottom: 20px; font-size: 0.95rem; }
+
+.d-day-badge {
+    background-color: #0066cc; color: white;
+    padding: 3px 10px; border-radius: 15px;
+    font-size: 0.8rem; font-weight: bold; margin-left: 5px;
+}
+
+.user-stats {
+    display: flex; gap: 40px; justify-content: center;
+    background: #f8f9fa; padding: 15px 30px; border-radius: 10px;
+}
+
+.stat-box { display: flex; flex-direction: column; }
+.stat-label { font-size: 0.8rem; color: #888; margin-bottom: 3px; }
+.stat-value { font-size: 1.2rem; font-weight: bold; color: #333; }
+
+/* 프로필 수정 모달 */
+.btn-edit-profile {
+    background: none; border: 1px solid #ddd; padding: 5px 10px;
+    border-radius: 15px; cursor: pointer; font-size: 0.8rem; color: #666;
+}
+.btn-edit-profile:hover { background: #f0f0f0; color: #333; }
+
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5); z-index: 2000;
+    display: flex; justify-content: center; align-items: center;
+}
+
+.modal-content {
+    background: white; padding: 30px; border-radius: 12px;
+    width: 90%; max-width: 400px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    animation: fadeIn 0.2s ease-out;
+}
+
+.modal-content h3 { margin-top: 0; text-align: center; }
+.modal-content .form-group { margin-bottom: 15px; }
+.modal-content input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
+.btn-cancel { flex: 1; padding: 10px; background: #eee; border: none; border-radius: 6px; cursor: pointer; color: #555; }
+.btn-save { flex: 1; padding: 10px; background: #0066cc; border: none; border-radius: 6px; cursor: pointer; color: white; font-weight: bold; }
+
+/* 캘린더 섹션 */
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    margin-top: 15px;
+    border: 1px solid #eee;
+    padding: 10px;
+    border-radius: 8px;
+    background: #fff;
+}
+
+.calendar-day {
+    height: 80px; 
+    border: 1px solid #f0f0f0;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 4px;
+    font-size: 12px;
+    position: relative;
+    background-color: #fff;
+    overflow: hidden;
+}
+
+.calendar-day.empty { background: #fafafa; border: none; }
+
+.calendar-nav button{
+    background-color: #a5d8ff; 
+    color: #ffffff;   
+    border: 2px solid #a5d8ff;
+    border-radius: 15px;      
+    padding: 0.3rem 0.5rem;
+    font-weight: 500;          
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    margin: 7px;   
+    box-shadow: 0 2px 0 #77afda;
+}
+
+.calendar-nav button:hover{
+    background-color: white; 
+    color: #4dabf7;              
+    border-color: #4dabf7;
+    transform: translateY(-2px)
+}
+
+.calendar-nav button:active{
+    transform: translateY(2px);
+    box-shadow: 0 0 0 #3b8dc4;
+}
+
+.day-number {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 2px;
+    font-size: 11px;
+}
+
+/* 캘린더 데이터 텍스트 */
+.cal-data {
+    font-size: 10px; 
+    line-height: 1.3;
+    white-space: nowrap;
+    width: 100%;
+    text-overflow: ellipsis;
+}
+
+.cal-weight { color: #d63384; font-weight: 600; }
+.cal-kcal { color: #0066cc; }
+.cal-bmi { color: #28a745; }
+
+/* 그래프 섹션 */
+.graph-container {
+    position: relative;
+    height: 300px !important;
+    width: 100%;
+}
